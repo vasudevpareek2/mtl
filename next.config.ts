@@ -7,11 +7,23 @@ const nextConfig: NextConfig = {
     // Enable server actions
     serverActions: {
       bodySizeLimit: '2mb'
-    }
+    },
+    // Enable ES modules for framer-motion
+    esmExternals: 'loose',
   },
   
-  // Move external packages to the root config
-  serverExternalPackages: ['@sanity/client'],
+  // Configure external packages
+  transpilePackages: ['framer-motion', '@sanity/client'],
+  
+  // Configure webpack to handle framer-motion
+  webpack: (config) => {
+    // Fixes npm packages that depend on `framer-motion`
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'framer-motion': 'framer-motion/dist/framer-motion',
+    };
+    return config;
+  },
   
   // Image optimization
   images: {
