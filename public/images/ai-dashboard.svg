@@ -1,0 +1,60 @@
+<svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Main Dashboard Background -->
+  <rect width="800" height="600" rx="16" fill="#0F172A"/>
+  
+  <!-- Header -->
+  <rect x="20" y="20" width="760" height="60" rx="8" fill="#1E293B"/>
+  <rect x="40" y="40" width="120" height="20" rx="4" fill="#334155"/>
+  <rect x="650" y="40" width="100" height="20" rx="4" fill="#334155"/>
+  
+  <!-- Sidebar -->
+  <rect x="20" y="100" width="180" height="480" rx="8" fill="#1E293B"/>
+  
+  <!-- Sidebar Menu Items -->
+  <rect x="40" y="130" width="140" height="12" rx="4" fill="#334155"/>
+  <rect x="40" y="160" width="120" height="12" rx="4" fill="#334155"/>
+  <rect x="40" y="190" width="100" height="12" rx="4" fill="#334155"/>
+  <rect x="40" y="220" width="140" height="12" rx="4" fill="#334155"/>
+  <rect x="40" y="250" width="110" height="12" rx="4" fill="#334155"/>
+  
+  <!-- Main Content -->
+  <rect x="220" y="100" width="560" height="200" rx="8" fill="#1E293B"/>
+  
+  <!-- Graph -->
+  <path d="M240 260L280 220L320 260L360 200L400 240L440 180L480 220L520 160L560 200L600 160L640 200L680 160L720 200L760 140" stroke="#EF7358" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- Stats Cards -->
+  <rect x="220" y="320" width="260" height="120" rx="8" fill="#1E293B"/>
+  <rect x="520" y="320" width="260" height="120" rx="8" fill="#1E293B"/>
+  <rect x="220" y="460" width="260" height="120" rx="8" fill="#1E293B"/>
+  <rect x="520" y="460" width="260" height="120" rx="8" fill="#1E293B"/>
+  
+  <!-- Stats Icons -->
+  <circle cx="260" cy="360" r="20" fill="#B22C6C" opacity="0.2"/>
+  <circle cx="560" cy="360" r="20" fill="#EF7358" opacity="0.2"/>
+  <circle cx="260" cy="500" r="20" fill="#FFEFA6" opacity="0.2"/>
+  <circle cx="560" cy="500" r="20" fill="#B22C6C" opacity="0.2"/>
+  
+  <!-- Stats Text -->
+  <rect x="300" cy="350" width="160" height="8" rx="4" fill="#334155"/>
+  <rect x="300" cy="370" width="120" height="6" rx="3" fill="#334155" opacity="0.7"/>
+  
+  <rect x="600" cy="350" width="160" height="8" rx="4" fill="#334155"/>
+  <rect x="600" cy="370" width="120" height="6" rx="3" fill="#334155" opacity="0.7"/>
+  
+  <rect x="300" cy="490" width="160" height="8" rx="4" fill="#334155"/>
+  <rect x="300" cy="510" width="120" height="6" rx="3" fill="#334155" opacity="0.7"/>
+  
+  <rect x="600" cy="490" width="160" height="8" rx="4" fill="#334155"/>
+  <rect x="600" cy="510" width="120" height="6" rx="3" fill="#334155" opacity="0.7"/>
+  
+  <!-- Gradient Overlay -->
+  <rect width="800" height="600" rx="16" fill="url(#paint0_linear_1_2)" fill-opacity="0.1"/>
+  <defs>
+    <linearGradient id="paint0_linear_1_2" x1="400" y1="0" x2="400" y2="600" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EF7358"/>
+      <stop offset="0.5" stop-color="#B22C6C"/>
+      <stop offset="1" stop-color="#FFEFA6"/>
+    </linearGradient>
+  </defs>
+</svg>

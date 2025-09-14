@@ -1,0 +1,41 @@
+{
+  "name": "modern-tech-lap",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@portabletext/react": "^4.0.3",
+    "@sanity/block-content-to-react": "^3.0.0",
+    "@sanity/client": "^7.11.1",
+    "@sanity/icons": "^3.7.4",
+    "@sanity/image-url": "^1.2.0",
+    "@sanity/vision": "^4.8.1",
+    "next": "15.5.2",
+    "next-images": "^1.8.5",
+    "next-sanity": "^10.1.4",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-type-animation": "^3.2.0",
+    "sanity": "^4.8.1",
+    "styled-components": "^6.1.19"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@svgr/webpack": "^8.1.0",
+    "@types/node": "^20.19.14",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/webpack": "^5.28.5",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^8.56.0",
+    "eslint-config-next": "15.5.2",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.3.3"
+  }
+}
