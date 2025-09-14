@@ -8,8 +8,10 @@ const nextConfig: NextConfig = {
     serverActions: {
       bodySizeLimit: '2mb'
     },
-    // Enable ES modules for framer-motion
-    esmExternals: 'loose',
+    // Enable ESM modules
+    esmExternals: true,
+    // Enable server components external packages
+    serverComponentsExternalPackages: ['@sanity/client'],
   },
   
   // Configure external packages
@@ -20,8 +22,15 @@ const nextConfig: NextConfig = {
     // Fixes npm packages that depend on `framer-motion`
     config.resolve.alias = {
       ...config.resolve.alias,
-      'framer-motion': 'framer-motion/dist/framer-motion',
+      'framer-motion': 'framer-motion',
     };
+    
+    // Handle ESM packages
+    config.experiments = {
+      ...config.experiments,
+      topLevelAwait: true,
+    };
+    
     return config;
   },
   
