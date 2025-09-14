@@ -1,21 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Disable Turbopack for now as it's causing build issues with Sanity
   // Enable modern React features
   experimental: {
     // Enable server actions
     serverActions: {
       bodySizeLimit: '2mb'
-    },
-    // Optimize package imports for server components
-    serverComponentsExternalPackages: ['@sanity/client'],
-    // Enable Turbopack
-    turbo: {
-      rules: {
-        '*.svg': ['@svgr/webpack']
-      }
     }
   },
+  
+  // Move external packages to the root config
+  serverExternalPackages: ['@sanity/client'],
   
   // Image optimization
   images: {
