@@ -15,9 +15,8 @@ export default defineType({
       name: 'description',
       title: 'Description',
       type: 'text',
-      options: {
-        rows: 3,
-      },
+      description: 'A short description of the category (max 200 characters)',
+      validation: (Rule) => Rule.max(200).warning('Description should be less than 200 characters'),
     }),
   ],
   preview: {

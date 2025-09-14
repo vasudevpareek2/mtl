@@ -10,27 +10,49 @@ const nextConfig: NextConfig = {
     },
     // Enable ESM modules
     esmExternals: true,
-    // Enable server components external packages
-    serverComponentsExternalPackages: ['@sanity/client'],
   },
   
   // Configure external packages
-  transpilePackages: ['framer-motion', '@sanity/client'],
+  serverExternalPackages: ['@sanity/client'],
+  transpilePackages: ['framer-motion'],
   
   // Configure webpack to handle framer-motion
-  webpack: (config) => {
-    // Fixes npm packages that depend on `framer-motion`
+  webpack: (config, { isServer }) => {
+    // Handle framer-motion module resolution
     config.resolve.alias = {
       ...config.resolve.alias,
-      'framer-motion': 'framer-motion',
+      'framer-motion': require.resolve('framer-motion'),
     };
-    
+
     // Handle ESM packages
     config.experiments = {
       ...config.experiments,
       topLevelAwait: true,
     };
-    
+
+    // Fix for server components
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        path: false,
+      };
+    }
+
+    // Handle framer-motion ESM imports
+    config.module = {
+      ...config.module,
+      rules: [
+        ...(config.module?.rules || []),
+        {
+          test: /\.m?js$/,
+          resolve: {
+            fullySpecified: false,
+          },
+        },
+      ],
+    };
+
     return config;
   },
   

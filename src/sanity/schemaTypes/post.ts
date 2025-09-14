@@ -57,9 +57,7 @@ export default defineType({
       name: 'excerpt',
       title: 'Excerpt',
       type: 'text',
-      options: {
-        rows: 3,
-      },
+      description: 'A short summary of the post (max 200 characters)',
       validation: (Rule) => Rule.max(200).warning('Excerpt should be less than 200 characters'),
     }),
     defineField({

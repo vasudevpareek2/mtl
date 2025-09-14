@@ -33,9 +33,8 @@ export default defineType({
       name: 'bio',
       title: 'Bio',
       type: 'text',
-      options: {
-        rows: 3,
-      },
+      description: 'A short biography of the author',
+      validation: (Rule) => Rule.max(500).warning('Bio should be less than 500 characters'),
     }),
   ],
   preview: {

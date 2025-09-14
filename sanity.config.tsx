@@ -2,7 +2,6 @@ import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
 import { visionTool } from '@sanity/vision';
 import { schemaTypes } from './src/sanity/schemaTypes';
-import { structure } from './src/sanity/structure';
 import { projectId, dataset } from './src/sanity/env';
 
 if (!projectId) {
@@ -20,11 +19,9 @@ export default defineConfig({
   dataset,
   basePath: '/studio',
   plugins: [
-    structureTool({
-      structure,
-    }),
+    structureTool(),
     visionTool({
-      defaultApiVersion: '2024-09-14',
+      defaultApiVersion: '2023-05-03',
     }),
   ],
   schema: {
