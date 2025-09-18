@@ -1,10 +1,13 @@
 "use client";
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
   const [dark, setDark] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
+  const pathname = usePathname();
 
   useEffect(() => {
     const stored = localStorage.getItem('theme');
@@ -63,47 +66,48 @@ export default function Navbar() {
 
   return (
     <nav className="w-full py-4 px-6 flex items-center justify-between sticky top-0 z-50 bg-white/30 dark:bg-black/40 backdrop-blur-xl shadow-lg border-b border-white/20 dark:border-[#b22c6c]/30 glassmorphism-nav transition-all duration-300">
-      <a 
-        href="#home" 
-        onClick={(e) => {
-          e.preventDefault();
-          scrollToSection('home');
-        }}
+      <Link 
+        href="/"
         className="flex items-center gap-2"
       >
         <Image src="/logo.svg" alt="Logo" width={40} height={40} className="rounded-full" priority />
         <span className="sr-only">Home</span>
-      </a>
+      </Link>
       
       <div className="hidden md:flex gap-6 items-center">
         {navLinks.map(({ id, label }) => (
-          <a
+          <Link
             key={id}
-            href={`#${id}`}
+            href={pathname === '/' ? `#${id}` : `/#${id}`}
             onClick={(e) => {
-              e.preventDefault();
-              scrollToSection(id);
+              if (pathname === '/') {
+                e.preventDefault();
+                scrollToSection(id);
+              }
             }}
             className={`${
-              activeSection === id 
+              (pathname === '/' && activeSection === id) || 
+              (pathname !== '/' && id === 'home')
                 ? 'text-blue-700 dark:text-blue-400 font-semibold' 
                 : 'text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-400'
             } transition font-medium`}
           >
             {label}
-          </a>
+          </Link>
         ))}
         
-        <a 
-          href="#contact" 
+        <Link 
+          href={pathname === '/' ? '#contact' : '/#contact'}
           onClick={(e) => {
-            e.preventDefault();
-            scrollToSection('contact');
+            if (pathname === '/') {
+              e.preventDefault();
+              scrollToSection('contact');
+            }
           }}
           className="ml-2 px-5 py-2 rounded-full bg-blue-700 hover:bg-blue-800 text-white font-bold shadow transition hidden sm:inline-block"
         >
           Get in Touch
-        </a>
+        </Link>
         
         <button
           aria-label="Toggle Dark Mode"

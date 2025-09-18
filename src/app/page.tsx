@@ -1,14 +1,148 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import BlogPosts from '@/components/BlogPosts';
+import { useEffect, useState } from 'react';
 
 // Dynamically import TypeAnimation with SSR disabled
 const TypeAnimation = dynamic(
   () => import('react-type-animation').then((mod) => mod.TypeAnimation),
   { ssr: false }
 );
+
+const ShootingStar = () => {
+  const size = Math.random() * 2 + 1;
+  const duration = Math.random() * 3 + 2;
+  const delay = Math.random() * 5;
+  const rotation = Math.random() * 45 - 22.5; // -22.5 to 22.5 degrees
+  
+  const starStyle = {
+    '--star-size': `${size}px`,
+    '--star-duration': `${duration}s`,
+    '--star-delay': `${delay}s`,
+    '--star-x': `${Math.random() * 100}%`,
+    '--star-y': `${Math.random() * 100}%`,
+    '--star-rotation': `${rotation}deg`,
+  } as React.CSSProperties;
+
+  // Create a trail that follows the star
+  const trailStyle = {
+    '--trail-width': `${size * 10}px`,
+    '--trail-height': `${size * 0.5}px`,
+    '--trail-duration': `${duration}s`,
+    '--trail-delay': `${delay}s`,
+    '--trail-rotation': `${rotation}deg`,
+  } as React.CSSProperties;
+
+  return (
+    <div 
+      className="absolute left-[var(--star-x)] top-[var(--star-y)] -translate-x-1/2 -translate-y-1/2 animate-shooting-star"
+      style={starStyle}
+    >
+      <div className="relative">
+        <div className="absolute w-[var(--star-size)] h-[var(--star-size)] bg-white rounded-full z-10" />
+        <div 
+          className="absolute left-0 top-1/2 -translate-y-1/2 bg-gradient-to-r from-transparent via-white to-transparent h-[1px] animate-shooting-star-trail"
+          style={trailStyle}
+        />
+      </div>
+    </div>
+  );
+};
+
+const BackgroundAnimation = () => {
+  const [isMounted, setIsMounted] = useState(false);
+  const [shootingStars, setShootingStars] = useState<number[]>([]);
+
+  useEffect(() => {
+    setIsMounted(true);
+    
+    // Add initial shooting stars (increased from 5 to 15)
+    const initialStars = Array.from({ length: 15 }, (_, i) => i);
+    setShootingStars(initialStars);
+    
+    // Add new shooting stars more frequently (reduced interval from 2000ms to 500ms)
+    const interval = setInterval(() => {
+      // Add 1-3 new stars at a time
+      const newStars = Array.from({ length: Math.floor(Math.random() * 3) + 1 }, () => Date.now() + Math.random());
+      setShootingStars(prev => [...prev, ...newStars]);
+    }, 500);
+    
+    return () => clearInterval(interval);
+  }, []);
+  
+  // Remove stars after animation completes (increased max from 10 to 25)
+  useEffect(() => {
+    if (shootingStars.length > 25) {
+      setShootingStars(prev => prev.slice(-25));
+    }
+  }, [shootingStars.length]);
+
+  if (!isMounted) return null;
+
+  return (
+    <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+      {/* Shooting Stars */}
+      <div className="absolute inset-0">
+        {shootingStars.map((id) => (
+          <ShootingStar key={id} />
+        ))}
+      </div>
+      {/* Grid pattern */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute inset-0" style={{
+          backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'0.1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+          backgroundSize: '60px 60px'
+        }} />
+      </div>
+      
+      {/* Animated lines */}
+      <div className="absolute inset-0">
+        {[...Array(8)].map((_, i) => {
+          const style = {
+            width: `${Math.random() * 20 + 10}%`,
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+            transform: `rotate(${Math.random() * 360}deg)`,
+            animation: `float ${Math.random() * 10 + 10}s linear infinite`,
+            animationDelay: `-${Math.random() * 10}s`,
+            opacity: Math.random() * 0.5 + 0.1
+          };
+          return (
+            <div 
+              key={i}
+              className="absolute h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent"
+              style={style}
+            />
+          );
+        })}
+      </div>
+      
+      {/* Animated dots */}
+      <div className="absolute inset-0">
+        {[...Array(15)].map((_, i) => {
+          const style = {
+            width: `${Math.random() * 6 + 2}px`,
+            height: `${Math.random() * 6 + 2}px`,
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+            animation: `pulse ${Math.random() * 4 + 2}s ease-in-out infinite alternate`,
+            animationDelay: `-${Math.random() * 5}s`
+          };
+          return (
+            <div 
+              key={i}
+              className="absolute rounded-full bg-white/5"
+              style={style}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+};
 
 const galleryImages = [
   "/images/ai1.jpg",
@@ -20,139 +154,94 @@ const galleryImages = [
 export default function Home() {
   return (
     <main className="relative min-h-screen flex flex-col items-center justify-center overflow-x-hidden scroll-smooth bg-white dark:bg-neutral-950">
-      {/* Hero Section - Biz4Group Inspired */}
-  <section id="home" className="relative w-full min-h-screen flex flex-col justify-center items-center overflow-hidden bg-gradient-to-br from-[#0a0a1a] via-[#1a0a2e] to-[#2d0a3a]">
+      {/* Hero Section - Indatalabs Inspired */}
+  <section id="home" className="relative w-full min-h-[100vh] flex items-center justify-center overflow-hidden bg-[#0a0a1a]">
     {/* Animated Background Elements */}
-    <div className="absolute inset-0 z-0 pointer-events-none">
-      <div className="absolute top-1/4 -left-1/4 w-96 h-96 bg-[#ef7358]/10 rounded-full filter blur-3xl"></div>
-      <div className="absolute -bottom-1/4 -right-1/4 w-96 h-96 bg-[#b22c6c]/10 rounded-full filter blur-3xl"></div>
-      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4">
-        <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] opacity-10"></div>
-      </div>
-    </div>
+    <BackgroundAnimation />
 
     {/* Hero Content */}
-    <div className="relative z-10 container mx-auto px-4">
-      <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
-        {/* Left Column - Text Content */}
-        <div className="w-full lg:w-1/2 text-left">
-          <div className="inline-block px-4 py-2 mb-6 bg-[#b22c6c]/20 backdrop-blur-md rounded-full border border-[#b22c6c]/30">
-            <span className="text-sm font-medium text-[#ffefa6] uppercase tracking-wider">Innovating with AI & ML</span>
-          </div>
-          
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
-            We Build 
-            <div className="relative inline-block min-w-[300px] ml-2">
-              <div className="absolute -left-2 -top-1 w-2 h-2 rounded-full bg-[#ef7358] animate-pulse"></div>
-              <span className="relative text-transparent bg-clip-text bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-[length:200%_auto] animate-textShimmer">
-                <TypeAnimation
-                  sequence={[
-                    'AI Solutions',
-                    2000,
-                    'Machine Learning Models',
-                    2000,
-                    'Intelligent Systems',
-                    2000,
-                    'Automation Tools',
-                    2000
-                  ]}
-                  wrapper="span"
-                  cursor={true}
-                  repeat={Infinity}
-                  className="inline-block min-w-[300px]"
-                />
-              </span>
-            </div>
-            <br />
-            <span className="text-white/80">That Drive Business Growth</span>
-          </h1>
-          
-          <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl">
-            Transform your business with cutting-edge AI solutions tailored to your unique needs. 
-            From concept to deployment, we deliver intelligent systems that solve real-world challenges.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 mb-12">n            <a 
-              href="#contact" 
-              className="px-8 py-4 bg-gradient-to-r from-[#ef7358] to-[#b22c6c] text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-[#b22c6c]/30 hover:scale-105 transition-all duration-300 text-center"
-            >
-              Start Your Project
-            </a>
-            <a 
-              href="#services" 
-              className="px-8 py-4 bg-transparent text-white font-semibold border-2 border-[#b22c6c] rounded-lg hover:bg-[#b22c6c]/20 hover:border-transparent transition-all duration-300 text-center"
-            >
-              Explore Services
-            </a>
-          </div>
-          
-          <div className="flex items-center space-x-4 text-gray-400 text-sm">
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
-              <span>24/7 Support</span>
-            </div>
-            <div className="w-px h-4 bg-gray-600"></div>
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 rounded-full bg-blue-500 animate-pulse"></div>
-              <span>AI Experts</span>
-            </div>
-            <div className="w-px h-4 bg-gray-600"></div>
-            <div className="flex items-center space-x-2">
-              <div className="w-3 h-3 rounded-full bg-purple-500 animate-pulse"></div>
-              <span>Proven Results</span>
-            </div>
-          </div>
+    <div className="relative z-10 container mx-auto px-4 py-20">
+      <div className="max-w-4xl mx-auto text-center">
+        <div className="inline-flex items-center gap-2 px-4 py-2 mb-6 bg-white/5 backdrop-blur-md rounded-full border border-white/10">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00f0ff] opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00f0ff]"></span>
+          </span>
+          <span className="text-sm font-medium text-[#00f0ff] uppercase tracking-wider">Innovating with AI & ML</span>
         </div>
         
-        {/* Right Column - Technical Image */}
-        <div className="w-full lg:w-1/2 relative">
-          <div className="relative z-10">
-            <div className="relative">
-              <div className="absolute -top-6 -left-6 w-full h-full border-2 border-[#b22c6c]/30 rounded-2xl z-0"></div>
-              <div className="relative bg-gradient-to-br from-[#1a0a2e] to-[#2d0a3a] p-1 rounded-2xl shadow-2xl border border-[#b22c6c]/20 overflow-hidden">
-                <div className="absolute inset-0 bg-[url('/images/tech-grid.svg')] opacity-10"></div>
-                <Image 
-                  src="/images/ai-dashboard.svg" 
-                  alt="AI Solutions Dashboard" 
-                  width={600} 
-                  height={500}
-                  className="w-full h-auto rounded-xl"
-                  priority
-                />
-              </div>
-            </div>
-            
-            {/* Floating Elements */}
-            <div className="absolute -bottom-8 -left-8 w-32 h-32 bg-[#ef7358]/10 rounded-full filter blur-2xl animate-float"></div>
-            <div className="absolute -top-8 -right-8 w-40 h-40 bg-[#b22c6c]/10 rounded-full filter blur-2xl animate-float animation-delay-2000"></div>
-            
-            {/* Animated Code Block */}
-            <div className="absolute -bottom-12 right-0 bg-[#0a0a1a] border border-[#b22c6c]/30 rounded-lg p-4 shadow-xl max-w-xs backdrop-blur-sm">
-              <div className="flex space-x-2 mb-3">
-                <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                <div className="w-3 h-3 rounded-full bg-green-500"></div>
-              </div>
-              <pre className="text-xs text-green-400 font-mono">
-                <code>
-                  {`// AI Model Training
-const model = trainAI({
-  dataset: "your_data",
-  epochs: 100,
-  accuracy: "98.7%"
-});`}
-                </code>
-              </pre>
-            </div>
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
+          <div className="text-2xl md:text-3xl font-medium text-[#00f0ff] mb-4">Welcome to the Future of</div>
+          <div className="relative inline-block">
+            <TypeAnimation
+              sequence={[
+                'AI Solutions',
+                2000,
+                'Machine Learning',
+                2000,
+                'Intelligent Systems',
+                2000,
+                'Automation Tools',
+                2000
+              ]}
+              wrapper="span"
+              style={{ 
+                display: 'inline-block',
+                background: 'linear-gradient(90deg, #00f0ff, #b22cff, #ff4d8d)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundSize: '200% auto',
+              }}
+              cursor={true}
+              repeat={Infinity}
+              className="whitespace-nowrap"
+            />
           </div>
+          <div className="mt-4 text-2xl md:text-4xl font-medium text-white/70">
+            That Drive <span className="font-bold text-white">Business Growth</span>
+          </div>
+        </h1>
+        
+        <p className="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto leading-relaxed">
+          Transform your business with cutting-edge AI solutions tailored to your unique needs. 
+          From concept to deployment, we deliver intelligent systems that solve real-world challenges.
+        </p>
+        
+        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+          <a 
+            href="#contact" 
+            className="group relative px-8 py-4 overflow-hidden rounded-lg bg-gradient-to-r from-[#00f0ff] to-[#b22cff] text-white font-semibold text-center transition-all duration-300 hover:shadow-lg hover:shadow-[#b22cff]/30 hover:scale-105"
+          >
+            <span className="relative z-10">Start Your Project</span>
+          </a>
+          <a 
+            href="#services" 
+            className="group relative px-8 py-4 overflow-hidden rounded-lg bg-transparent text-white font-semibold border-2 border-white/10 text-center transition-all duration-300 hover:bg-white/5"
+          >
+            <span className="relative z-10 flex items-center justify-center gap-2">
+              <span>Explore Services</span>
+              <svg className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </span>
+          </a>
+        </div>
+        
+        <div className="flex flex-wrap justify-center gap-6 text-gray-400 text-sm">
+          {['24/7 Support', 'AI Experts', 'Proven Results'].map((item, i) => (
+            <div key={i} className="flex items-center space-x-2">
+              <div className="w-2 h-2 rounded-full bg-[#00f0ff] animate-pulse"></div>
+              <span>{item}</span>
+            </div>
+          ))}
         </div>
       </div>
     </div>
     
     {/* Scroll Indicator */}
     <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-      <div className="w-8 h-12 border-2 border-[#b22c6c] rounded-full flex justify-center p-1">
-        <div className="w-1 h-3 bg-[#ef7358] rounded-full animate-scroll"></div>
+      <div className="w-8 h-12 border-2 border-white/20 rounded-full flex justify-center p-1">
+        <div className="w-1 h-3 bg-white/70 rounded-full animate-scroll"></div>
       </div>
     </div>
   </section>
@@ -319,13 +408,23 @@ const model = trainAI({
               />
               <h3 className="text-xl font-bold mb-2 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent group-hover:underline">{p.title}</h3>
               <p className="text-center text-white/80 dark:text-gray-300 mb-2">{p.desc}</p>
-              <a href="#" className="underline hover:bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent transition">
+              <Link href={`/case-studies/${p.title.toLowerCase().includes('ecommerce') ? 'ecommerce-transformation' : p.title.toLowerCase().includes('healthcare') ? 'healthcare-analytics' : 'fintech-mobile-app'}`} className="underline hover:bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent transition">
                 <span className="text-[#b22c6c] hover:text-transparent">Read More</span>
-              </a>
+              </Link>
             </div>
           ))}
         </div>
       </section>
+      {/* Section Divider */}
+      <div className="w-full flex justify-center mb-8 mt-8">
+        <div className="h-1 w-24 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] rounded-full opacity-70 animate-pulse" />
+      </div>
+      {/* Blog Section */}
+      <section id="blog" className="min-h-[400px] py-20 px-4 max-w-6xl mx-auto text-center animate-fade-in">
+        <h2 className="text-4xl md:text-5xl font-extrabold mb-8 mt-10 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent">Latest Insights</h2>
+        <BlogPosts />
+      </section>
+      
       {/* Section Divider */}
       <div className="w-full flex justify-center mb-8 mt-8">
         <div className="h-1 w-24 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] rounded-full opacity-70 animate-pulse" />
@@ -381,15 +480,6 @@ const model = trainAI({
             <button type="submit" className="mt-2 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] text-white font-bold py-3 rounded-full shadow transition-transform hover:scale-105">Send Message</button>
           </form>
         </div>
-      </section>
-      {/* Section Divider */}
-      <div className="w-full flex justify-center mb-8 mt-8">
-        <div className="h-1 w-24 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] rounded-full opacity-70 animate-pulse" />
-      </div>
-      {/* Blog Section */}
-      <section id="blog" className="min-h-[400px] py-20 px-4 max-w-6xl mx-auto text-center animate-fade-in">
-        <h2 className="text-4xl md:text-5xl font-extrabold mb-8 mt-10 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent">Latest Insights</h2>
-        <BlogPosts />
       </section>
 
       {/* Footer */}
