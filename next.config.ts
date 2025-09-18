@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Set output file tracing root to silence workspace warning
+  outputFileTracingRoot: __dirname,
+  
   // Disable Turbopack for now as it's causing build issues with Sanity
   // Enable modern React features
   experimental: {
