@@ -67,17 +67,7 @@ const nextConfig: NextConfig = {
   // Enable React strict mode
   reactStrictMode: true,
   
-  // Handle 404s for client-side navigation
-  async rewrites() {
-    return [
-      {
-        source: '/:path*',
-        destination: '/',
-      },
-    ];
-  },
-  
-  // Redirects for old routes
+  // Redirects for old routes (but exclude blog post routes)
   async redirects() {
     return [
       // Redirect old routes to the new single-page anchors
@@ -96,6 +86,7 @@ const nextConfig: NextConfig = {
         destination: '/#projects',
         permanent: true,
       },
+      // Only redirect /blog (not /blog/post/*) to the home page blog section
       {
         source: '/blog',
         destination: '/#blog',

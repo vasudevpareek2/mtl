@@ -26,8 +26,8 @@ export const metadata: Metadata = {
   ],
 };
 
-import Link from "next/link";
 import Navbar from "@/components/Navbar";
+import ClientCookieBanner from "@/components/ClientCookieBanner";
 
 export default function RootLayout({
   children,
@@ -38,7 +38,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${montserrat.variable} font-sans antialiased bg-white dark:bg-black text-black dark:text-white transition-colors`}>
         <Navbar />
-        <div className="min-h-[calc(100vh-56px)]">{children}</div>
+        <div className="min-h-[calc(100vh-56px)]">
+          {children}
+          <ClientCookieBanner />
+        </div>
       </body>
     </html>
   );

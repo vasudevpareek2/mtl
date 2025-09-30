@@ -4,7 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import BlogPosts from '@/components/BlogPosts';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 // Dynamically import TypeAnimation with SSR disabled
 const TypeAnimation = dynamic(
@@ -55,18 +55,22 @@ const ShootingStar = () => {
 const BackgroundAnimation = () => {
   const [isMounted, setIsMounted] = useState(false);
   const [shootingStars, setShootingStars] = useState<number[]>([]);
+  const counter = useRef(0);
 
   useEffect(() => {
     setIsMounted(true);
     
     // Add initial shooting stars (increased from 5 to 15)
-    const initialStars = Array.from({ length: 15 }, (_, i) => i);
+    const initialStars = Array.from({ length: 15 }, () => counter.current++);
     setShootingStars(initialStars);
     
     // Add new shooting stars more frequently (reduced interval from 2000ms to 500ms)
     const interval = setInterval(() => {
       // Add 1-3 new stars at a time
-      const newStars = Array.from({ length: Math.floor(Math.random() * 3) + 1 }, () => Date.now() + Math.random());
+      const newStars = Array.from(
+        { length: Math.floor(Math.random() * 3) + 1 }, 
+        () => counter.current++
+      );
       setShootingStars(prev => [...prev, ...newStars]);
     }, 500);
     
@@ -144,12 +148,6 @@ const BackgroundAnimation = () => {
   );
 };
 
-const galleryImages = [
-  "/images/ai1.jpg",
-  "/images/ai2.jpg",
-  "/images/ai3.jpg",
-  "/images/ai4.jpg",
-];
 
 export default function Home() {
   return (
@@ -167,7 +165,7 @@ export default function Home() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00f0ff] opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00f0ff]"></span>
           </span>
-          <span className="text-sm font-medium text-[#00f0ff] uppercase tracking-wider">Innovating with AI & ML</span>
+          <span className="text-sm font-medium text-[#00f0ff] uppercase tracking-wider">AI FOR YOUR BUSINESS</span>
         </div>
         
         <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6">
@@ -228,7 +226,7 @@ export default function Home() {
         </div>
         
         <div className="flex flex-wrap justify-center gap-6 text-gray-400 text-sm">
-          {['24/7 Support', 'AI Experts', 'Proven Results'].map((item, i) => (
+          {['Values', 'Consistency', 'Perfection'].map((item, i) => (
             <div key={i} className="flex items-center space-x-2">
               <div className="w-2 h-2 rounded-full bg-[#00f0ff] animate-pulse"></div>
               <span>{item}</span>
@@ -246,244 +244,582 @@ export default function Home() {
     </div>
   </section>
       {/* Section Divider */}
-      <div className="w-full flex justify-center mb-10">
-        <div className="h-1 w-32 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] rounded-full opacity-40" />
+      <div className="w-full flex justify-center my-4">
+        <div className="h-0.5 w-16 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] rounded-full opacity-40" />
       </div>
-      {/* Services Section - Biz4Group Inspired */}
-      <section id="services" className="min-h-[400px] py-16 px-4 max-w-6xl mx-auto text-center">
-  <h2 className="text-4xl md:text-5xl font-extrabold mb-12 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent drop-shadow-2xl animate-fade-in hover:scale-105 transition-transform duration-300 cursor-pointer">AI Development Services</h2>
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
-    {[
-      {title: "AI Development", desc: "Bespoke AI solutions for your business.", icon: "🤖"},
-      {title: "AI Agent Development", desc: "Intelligent agents to automate and enhance.", icon: "🧠"},
-      {title: "Enterprise AI Solutions", desc: "Unlock insights and automate workflows.", icon: "🏢"}
-    ].map((s, i) => (
-      <div key={i} className="relative bg-white/30 dark:bg-black/40 backdrop-blur-lg border border-[#ef7358]/30 dark:border-[#ef7358]/30 rounded-3xl shadow-xl p-10 flex flex-col items-center group transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-[#b22c6c] glassmorphism-card">
-        <div className="text-6xl mb-5 group-hover:animate-bounce-slow group-hover:bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent transition-transform duration-200">
-          {s.icon}
-        </div>
-        <h3 className="text-2xl font-bold mb-3 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent group-hover:underline drop-shadow-md">{s.title}</h3>
-        <p className="text-neutral-800 dark:text-neutral-200 mb-5 text-base font-medium">{s.desc}</p>
-        <a href="#contact" className="px-5 py-2 rounded-full bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] text-white font-semibold shadow hover:scale-105 hover:brightness-110 transition-all duration-200">Talk to Expert</a>
-        {/* Decorative floating shape */}
-        <span className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-[#ffefa6]/60 blur-md opacity-70 group-hover:scale-125 transition-transform duration-300" />
-      </div>
-    ))}
-  </div>
-</section>
-      {/* Section Divider */}
-      <div className="w-full flex justify-center mb-10 mt-10">
-        <div className="h-1 w-24 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] rounded-full opacity-40" />
-      </div>
-      {/* Video Section */}
-      <section className="w-full flex justify-center mb-12">
-        <div className="w-full max-w-3xl aspect-video rounded-xl overflow-hidden shadow-2xl border-4 border-[#ef7358] bg-black/70 flex items-center justify-center">
-          <video className="w-full h-full object-cover" src="/videos/intro.mp4" autoPlay loop muted playsInline poster="/images/ai1.jpg">
-            Sorry, your browser does not support embedded videos.
-          </video>
-        </div>
-      </section>
-      {/* Image Gallery Slider */}
-      <section className="w-full max-w-5xl mx-auto mb-16">
-        <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-[#b22c6c] scrollbar-track-[#ef7358]">
-          <div className="flex gap-6 min-w-[600px]">
-            {galleryImages.map((src, i) => (
-              <div key={i} className="min-w-[320px] h-52 rounded-xl overflow-hidden shadow-lg border-2 border-[#ef7358] bg-black/40 flex items-center justify-center">
-                <Image src={src} alt={`AI Gallery ${i+1}`} width={320} height={208} className="object-cover w-full h-full" />
+      {/* Services Section - Updated to match style */}
+      <section id="services" className="py-16 px-4 max-w-6xl mx-auto">
+        <h2 className="text-4xl md:text-5xl font-extrabold mb-12 text-center bg-gradient-to-r from-[#00f0ff] via-[#b22cff] to-[#ff4d8d] bg-clip-text text-transparent drop-shadow-2xl animate-fade-in">
+          Our Services / What We Offer
+        </h2>
+        <p className="text-lg text-gray-400 text-center max-w-3xl mx-auto mb-12 leading-relaxed">
+          We deliver end-to-end AI capabilities to accelerate your digital transformation
+        </p>
+        
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* Left Column */}
+          <div className="space-y-8">
+            {/* Service 1 */}
+            <div className="group relative p-6 bg-gradient-to-br from-[#0f172a] to-[#1e293b] rounded-2xl border border-white/10 hover:border-[#00f0ff]/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#00f0ff]/10">
+              <div className="absolute -top-4 -left-4 w-12 h-12 rounded-2xl bg-gradient-to-br from-[#ef7358] via-[#b22c6c] to-[#ffefa6] flex items-center justify-center text-2xl">
+                🎯
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
-      {/* About Section */}
-      <section id="about" className="py-20 px-4 max-w-6xl mx-auto">
-        <h2 className="text-4xl md:text-5xl font-extrabold mb-12 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent drop-shadow-2xl animate-fade-in">About Us</h2>
-        <div className="flex flex-col md:flex-row gap-12 items-center">
-          {/* Left: Mission and Counters */}
-          <div className="flex-1 flex flex-col items-center md:items-start">
-            <p className="text-lg text-neutral-800 dark:text-neutral-200 mb-6 font-medium animate-fade-in-up">
-              We are a passionate team of AI experts, engineers, and designers dedicated to building impactful solutions for modern businesses.
-            </p>
-            <div className="flex gap-10 mb-8">
-              <div className="flex flex-col items-center">
-                <span className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent animate-pulse">10+</span>
-                <span className="text-xs text-neutral-500 mt-1">Years Experience</span>
+              <h3 className="text-xl font-bold text-white mb-3 pl-10">AI Strategy & Consulting</h3>
+              <p className="text-gray-300">
+                Align AI with your business goals — prioritize use cases, plan data readiness, and design an AI roadmap.
+              </p>
+            </div>
+
+            {/* Service 2 */}
+            <div className="group relative p-6 bg-gradient-to-br from-[#0f172a] to-[#1e293b] rounded-2xl border border-white/10 hover:border-[#b22cff]/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#b22cff]/10">
+              <div className="absolute -top-4 -left-4 w-12 h-12 rounded-2xl bg-gradient-to-br from-[#b22cff] to-[#8a2be2] flex items-center justify-center text-2xl">
+                🤖
               </div>
-              <div className="flex flex-col items-center">
-                <span className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-[#b22c6c] via-[#ef7358] to-[#ffefa6] bg-clip-text text-transparent animate-bounce-slow">25+</span>
-                <span className="text-xs text-neutral-500 mt-1">Projects Delivered</span>
+              <h3 className="text-xl font-bold text-white mb-3 pl-10">Custom AI & ML Development</h3>
+              <p className="text-gray-300">
+                Build tailored models and systems across domains: time series, recommendation engines, anomaly detection, etc.
+              </p>
+            </div>
+
+            {/* Service 3 */}
+            <div className="group relative p-6 bg-gradient-to-br from-[#0f172a] to-[#1e293b] rounded-2xl border border-white/10 hover:border-[#ff4d8d]/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#ff4d8d]/10">
+              <div className="absolute -top-4 -left-4 w-12 h-12 rounded-2xl bg-gradient-to-br from-[#ff4d8d] to-[#ff1493] flex items-center justify-center text-2xl">
+                💬
               </div>
-              <div className="flex flex-col items-center">
-                <span className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-[#ffefa6] via-[#b22c6c] to-[#ef7358] bg-clip-text text-transparent animate-fade-in">100%</span>
-                <span className="text-xs text-neutral-500 mt-1">Client Satisfaction</span>
-              </div>
+              <h3 className="text-xl font-bold text-white mb-3 pl-10">Conversational AI & NLP</h3>
+              <p className="text-gray-300">
+                Chatbots, virtual assistants, document understanding, semantic search, language translation — enhancing user interaction.
+              </p>
             </div>
           </div>
-          {/* Right: Team Illustration */}
-          <div className="flex-1 flex justify-center">
-            {/* Replace with <Image /> for optimization later */}
-            <Image 
-  src="/images/team.jpg" 
-  alt="Our Team" 
-  width={320}
-  height={256}
-  className="rounded-3xl shadow-2xl w-80 h-64 object-cover border-4 border-[#b22c6c]/30"
-/>
+
+          {/* Right Column */}
+          <div className="space-y-8">
+            {/* Service 4 */}
+            <div className="group relative p-6 bg-gradient-to-br from-[#0f172a] to-[#1e293b] rounded-2xl border border-white/10 hover:border-[#00e676]/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#00e676]/10">
+              <div className="absolute -top-4 -left-4 w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00e676] to-[#00c853] flex items-center justify-center text-2xl">
+                👁️
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3 pl-10">Computer Vision & Visual Intelligence</h3>
+              <p className="text-gray-300">
+                Deploy object detection, image segmentation, OCR, video analytics for industries like healthcare, retail, manufacturing.
+              </p>
+            </div>
+
+            {/* Service 5 */}
+            <div className="group relative p-6 bg-gradient-to-br from-[#0f172a] to-[#1e293b] rounded-2xl border border-white/10 hover:border-[#ff9800]/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#ff9800]/10">
+              <div className="absolute -top-4 -left-4 w-12 h-12 rounded-2xl bg-gradient-to-br from-[#ff9800] to-[#f57c00] flex items-center justify-center text-2xl">
+                ⚙️
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3 pl-10">Intelligent Automation & Workflow</h3>
+              <p className="text-gray-300">
+                Embed AI into your business processes: approvals, robotic process automation (RPA) + AI, decision routing.
+              </p>
+            </div>
+
+            {/* Service 6 */}
+            <div className="group relative p-6 bg-gradient-to-br from-[#0f172a] to-[#1e293b] rounded-2xl border border-white/10 hover:border-[#00bcd4]/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#00bcd4]/10">
+              <div className="absolute -top-4 -left-4 w-12 h-12 rounded-2xl bg-gradient-to-br from-[#00bcd4] to-[#0097a7] flex items-center justify-center text-2xl">
+                🚀
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3 pl-10">Enterprise Deployment & MLOps</h3>
+              <p className="text-gray-300">
+                Scalable architecture, model monitoring, retraining pipelines, drift detection, logging, version control.
+              </p>
+            </div>
           </div>
         </div>
-        <h3 className="text-2xl md:text-3xl font-bold mt-16 mb-8 bg-gradient-to-r from-[#b22c6c] via-[#ef7358] to-[#ffefa6] bg-clip-text text-transparent drop-shadow-md animate-fade-in-up">Meet Our Team</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+      </section>
+      {/* Section Divider */}
+      <div className="w-full flex justify-center my-2">
+        <div className="h-0.5 w-12 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] rounded-full opacity-60" />
+      </div>
+
+      {/* Why Choose Us Section */}
+      <section id="why-choose-us" className="pt-20 pb-16 px-4 max-w-6xl mx-auto">
+        <h2 className="text-4xl md:text-5xl font-extrabold mb-12 text-center bg-gradient-to-r from-[#ff4d8d] via-[#b22cff] to-[#00f0ff] bg-clip-text text-transparent drop-shadow-2xl animate-fade-in leading-none py-4 my-0">
+          Why Choose Us?
+        </h2>
+        
+        <div className="grid md:grid-cols-2 lg:grid-cols-2 gap-8">
           {[
-            {name: "Priya S.", role: "Lead AI Engineer", img: "/images/team1.jpg"},
-            {name: "Alex R.", role: "AI Product Designer", img: "/images/team2.jpg"},
-            {name: "Jordan W.", role: "ML Researcher", img: "/images/team3.jpg"}
-          ].map((m, i) => (
-            <div key={i} className="relative bg-white/30 dark:bg-black/40 backdrop-blur-lg border border-[#b22c6c]/30 rounded-2xl shadow-xl p-8 flex flex-col items-center group transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:border-[#ef7358] glassmorphism-card">
-              {/* Replace with <Image /> for optimization later */}
-              <Image 
-  src={m.img} 
-  alt={m.name} 
-  width={96}
-  height={96}
-  className="w-24 h-24 object-cover rounded-full mb-4 border-4 border-[#ef7358] shadow-lg group-hover:scale-110 transition-transform duration-300"
-/>
-              <div className="font-bold text-xl mb-1 group-hover:bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent transition-all">{m.name}</div>
-              <div className="text-sm font-semibold mb-2 text-[#b22c6c]">{m.role}</div>
-              <p className="text-xs text-neutral-600 dark:text-neutral-300 text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-              {/* Decorative shape */}
-              <span className="absolute -top-3 -left-3 w-6 h-6 rounded-full bg-[#ffefa6]/60 blur-md opacity-70 group-hover:scale-125 transition-transform duration-300" />
+            {
+              title: "Domain-Centric AI Expertise",
+              description: "We blend AI research with practical business acumen to deliver solutions that drive real value.",
+              icon: "🧠",
+              gradient: "from-[#8a2be2] to-[#4b0082]"
+            },
+            {
+              title: "Scalable & Secure Architecture",
+              description: "We build systems ready to grow and integrate with your enterprise stack, ensuring security at every level.",
+              icon: "🛡️",
+              gradient: "from-[#00bcd4] to-[#00796b]"
+            },
+            {
+              title: "Outcome-Focused Delivery",
+              description: "Our success is measured by business metrics: cost reduction, revenue lift, and time saved.",
+              icon: "📈",
+              gradient: "from-[#ff9800] to-[#f44336]"
+            },
+            {
+              title: "Transparent Collaboration",
+              description: "You stay informed at every step with clear milestones, dashboards, and governance.",
+              icon: "🤝",
+              gradient: "from-[#9c27b0] to-[#673ab7]"
+            },
+            {
+              title: "Long-Term Partnership",
+              description: "Beyond launch, we support evolution, maintenance, and expansion of your AI ecosystem.",
+              icon: "🚀",
+              gradient: "from-[#ff4d8d] to-[#ff1493]"
+            },
+            {
+              title: "Cutting-Edge Innovation",
+              description: "We stay ahead of the curve with the latest AI advancements to keep you competitive.",
+              icon: "✨",
+              gradient: "from-[#00c853] to-[#1b5e20]"
+            }
+          ].map((item, index) => (
+            <div 
+              key={index}
+              className="group relative p-6 bg-gradient-to-br from-[#0f172a] to-[#1e293b] rounded-2xl border border-white/10 hover:border-opacity-50 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{
+                background: `linear-gradient(135deg, ${item.gradient.split('from-')[1].split(' to-')[0]}, ${item.gradient.split('to-')[1]})`
+              }}></div>
+              <div className="relative z-10">
+                <div className={`w-14 h-14 rounded-xl mb-4 flex items-center justify-center text-3xl bg-gradient-to-br ${item.gradient} shadow-lg`}>
+                  {item.icon}
+                </div>
+                <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
+                <p className="text-gray-300 group-hover:text-white transition-colors duration-300">{item.description}</p>
+              </div>
+              <div className="absolute bottom-4 right-4 w-8 h-8 rounded-full bg-white/10 flex items-center justify-center group-hover:bg-white/20 transition-colors duration-300">
+                <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
+                </svg>
+              </div>
             </div>
           ))}
         </div>
       </section>
+
       {/* Section Divider */}
-      <div className="w-full flex justify-center mb-8 mt-8">
-        <div className="h-1 w-24 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] rounded-full opacity-70 animate-pulse" />
+      <div className="w-full flex justify-center my-2">
+        <div className="h-0.5 w-12 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] rounded-full opacity-60" />
       </div>
-      {/* Services Section */}
-      <section id="services" className="min-h-[400px] py-20 px-4 max-w-5xl mx-auto text-center animate-fade-in">
-        <h2 className="text-4xl md:text-5xl font-extrabold mb-8 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent">Our AI Solutions</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-10">
+      {/* Portfolio Section - Full Width */}
+      <section id="portfolio" className="relative w-screen -mx-[calc(50vw-50%)] py-24 bg-gradient-to-b from-[#0a0a1a] to-[#0f0f23] overflow-hidden">
+        <div className="absolute inset-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#b22cff10] via-transparent to-transparent opacity-40 pointer-events-none"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <span className="inline-block px-4 py-1.5 text-sm font-medium text-[#00f0ff] bg-[#00f0ff]/10 rounded-full mb-5 leading-normal">CASE STUDIES</span>
+            <h2 className="text-4xl md:text-5xl font-extrabold mb-8 leading-tight bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-transparent">
+              Our <span className="bg-gradient-to-r from-[#00f0ff] via-[#b22cff] to-[#ff4d8d] bg-clip-text text-transparent">Success Stories</span>
+            </h2>
+            <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed pb-1">Transforming businesses with cutting-edge AI solutions that deliver measurable impact.</p>
+          </div>
+          
+          <div className="space-y-12 max-w-5xl mx-auto">
+            {/* Project 1 */}
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#121a2e] to-[#0f172a] border border-white/5 hover:border-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl p-8">
+              <div className="flex flex-col md:flex-row gap-8">
+                <div className="md:w-1/3">
+                  <div className="h-48 bg-gradient-to-br from-[#1e293b] to-[#0f172a] rounded-xl flex items-center justify-center text-gray-600">
+                    <span className="text-sm">AutoClaims AI</span>
+                  </div>
+                </div>
+                <div className="md:w-2/3">
+                  <h3 className="text-2xl font-bold text-white mb-3">1. AutoClaims AI for Insurance</h3>
+                  <p className="text-gray-300 mb-4">
+                    Computer vision + NLP pipeline for assessing damage photos, extracting form data, and routing claims.
+                  </p>
+                  <div className="bg-[#00f0ff]/10 border-l-4 border-[#00f0ff] px-4 py-2 rounded-r">
+                    <p className="text-[#00f0ff] font-medium">Impact:</p>
+                    <p className="text-white">Claims cycle time cut by ~60%, manual review workload reduced significantly.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Project 2 */}
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#121a2e] to-[#0f172a] border border-white/5 hover:border-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl p-8">
+              <div className="flex flex-col md:flex-row gap-8">
+                <div className="md:w-1/3">
+                  <div className="h-48 bg-gradient-to-br from-[#1e293b] to-[#0f172a] rounded-xl flex items-center justify-center text-gray-600">
+                    <span className="text-sm">SmartInbox AI</span>
+                  </div>
+                </div>
+                <div className="md:w-2/3">
+                  <h3 className="text-2xl font-bold text-white mb-3">2. SmartInbox AI Assistant for Corporate Email</h3>
+                  <p className="text-gray-300 mb-4">
+                    An intelligent assistant that reads, categorizes, drafts replies, schedules tasks, and auto-responds when appropriate.
+                  </p>
+                  <div className="bg-[#b22cff]/10 border-l-4 border-[#b22cff] px-4 py-2 rounded-r">
+                    <p className="text-[#b22cff] font-medium">Impact:</p>
+                    <p className="text-white">Saves ~2–4 hours per user/week, improves SLAs, reduces missed responses.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Project 3 */}
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#121a2e] to-[#0f172a] border border-white/5 hover:border-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl p-8">
+              <div className="flex flex-col md:flex-row gap-8">
+                <div className="md:w-1/3">
+                  <div className="h-48 bg-gradient-to-br from-[#1e293b] to-[#0f172a] rounded-xl flex items-center justify-center text-gray-600">
+                    <span className="text-sm">Predictive Maintenance</span>
+                  </div>
+                </div>
+                <div className="md:w-2/3">
+                  <h3 className="text-2xl font-bold text-white mb-3">3. Predictive Maintenance Platform for Manufacturing</h3>
+                  <p className="text-gray-300 mb-4">
+                    Real-time sensor analytics predicting equipment failure, scheduling preventive action.
+                  </p>
+                  <div className="bg-[#ff4d8d]/10 border-l-4 border-[#ff4d8d] px-4 py-2 rounded-r">
+                    <p className="text-[#ff4d8d] font-medium">Impact:</p>
+                    <p className="text-white">Downtime reduced by 40%, maintenance costs down by 25%, yield improved.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Project 4 */}
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#121a2e] to-[#0f172a] border border-white/5 hover:border-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl p-8">
+              <div className="flex flex-col md:flex-row gap-8">
+                <div className="md:w-1/3">
+                  <div className="h-48 bg-gradient-to-br from-[#1e293b] to-[#0f172a] rounded-xl flex items-center justify-center text-gray-600">
+                    <span className="text-sm">Demand Forecasting</span>
+                  </div>
+                </div>
+                <div className="md:w-2/3">
+                  <h3 className="text-2xl font-bold text-white mb-3">4. Demand Forecasting & Inventory Optimization</h3>
+                  <p className="text-gray-300 mb-4">
+                    Time series modeling and reinforcement policies optimizing reorder points across SKUs and locations.
+                  </p>
+                  <div className="bg-[#00e676]/10 border-l-4 border-[#00e676] px-4 py-2 rounded-r">
+                    <p className="text-[#00e676] font-medium">Impact:</p>
+                    <p className="text-white">Inventory waste reduced by 30%, stock-outs declined, working capital freed.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Project 5 */}
+            <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#121a2e] to-[#0f172a] border border-white/5 hover:border-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl p-8">
+              <div className="flex flex-col md:flex-row gap-8">
+                <div className="md:w-1/3">
+                  <div className="h-48 bg-gradient-to-br from-[#1e293b] to-[#0f172a] rounded-xl flex items-center justify-center text-gray-600">
+                    <span className="text-sm">Document Intelligence</span>
+                  </div>
+                </div>
+                <div className="md:w-2/3">
+                  <h3 className="text-2xl font-bold text-white mb-3">5. Enterprise Document Intelligence Suite</h3>
+                  <p className="text-gray-300 mb-4">
+                    OCR + NLP engine for document ingestion, classification (invoices, contracts, reports), extraction and semantic search.
+                  </p>
+                  <div className="bg-[#ff9800]/10 border-l-4 border-[#ff9800] px-4 py-2 rounded-r">
+                    <p className="text-[#ff9800] font-medium">Impact:</p>
+                    <p className="text-white">Manual processing reduced by 80%, compliance checks automated, audit readiness improved.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      {/* Case Studies Highlights */}
+      <section id="case-studies" className="py-16 px-4 max-w-6xl mx-auto text-center animate-fade-in">
+        <div className="text-center mb-12">
+          <span className="inline-block px-4 py-1.5 text-sm font-medium text-[#00f0ff] bg-[#00f0ff]/10 rounded-full mb-5 leading-normal">CLIENT SUCCESS</span>
+          <h2 className="text-4xl md:text-5xl font-extrabold mb-4 bg-gradient-to-r from-white via-gray-300 to-gray-500 bg-clip-text text-transparent">
+            Impact <span className="bg-gradient-to-r from-[#00f0ff] via-[#b22cff] to-[#ff4d8d] bg-clip-text text-transparent">Highlights</span>
+          </h2>
+          <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">See how our AI solutions are driving measurable business outcomes for our clients.</p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {[
-            {title: "AI Consultancy", desc: "Strategic guidance for AI adoption.", img: "/images/service1.png"},
-            {title: "Custom AI Development", desc: "End-to-end ML models & AI apps.", img: "/images/service2.png"},
-            {title: "Automation & Optimization", desc: "Process automation with AI.", img: "/images/service3.png"},
-            {title: "NLP & Chatbots", desc: "Conversational AI.", img: "/images/service4.png"},
-            {title: "Computer Vision", desc: "Image recognition & analytics.", img: "/images/service5.png"}
-          ].map((s, i) => (
-            <div key={i} className="bg-white/20 dark:bg-black/30 backdrop-blur-lg p-8 rounded-2xl shadow-2xl border border-white/20 dark:border-black/30 flex flex-col items-center hover:scale-105 transition-transform group">
-              <Image 
-                src={s.img} 
-                alt={s.title} 
-                width={64}
-                height={64}
-                className="w-16 h-16 mb-4 group-hover:scale-110 transition-transform"
-              />
-              <h3 className="text-xl font-bold mb-2 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent group-hover:underline">{s.title}</h3>
-              <p className="text-center text-white/80 dark:text-gray-300">{s.desc}</p>
+            {
+              title: "60% Faster Claims Processing",
+              desc: "Reduced insurance claims processing time with our AI-powered AutoClaims solution.",
+              icon: "⚡",
+              gradient: "from-[#00f0ff] to-[#00a8ff]"
+            },
+            {
+              title: "4 Hours/Week Saved",
+              desc: "Average time saved per employee with our SmartInbox AI email assistant.",
+              icon: "⏱️",
+              gradient: "from-[#b22cff] to-[#8a2be2]"
+            },
+            {
+              title: "40% Less Downtime",
+              desc: "Reduction in manufacturing downtime with our Predictive Maintenance platform.",
+              icon: "🏭",
+              gradient: "from-[#ff4d8d] to-[#ff1493]"
+            },
+            {
+              title: "30% Less Waste",
+              desc: "Inventory waste reduction through our Demand Forecasting solution.",
+              icon: "📦",
+              gradient: "from-[#00e676] to-[#00c853]"
+            },
+            {
+              title: "80% Faster Processing",
+              desc: "Document processing time reduced with our Document Intelligence Suite.",
+              icon: "📄",
+              gradient: "from-[#ff9800] to-[#f57c00]"
+            },
+            {
+              title: "25% Cost Reduction",
+              desc: "Average maintenance cost savings across our manufacturing clients.",
+              icon: "💰",
+              gradient: "from-[#00bcd4] to-[#0097a7]"
+            }
+          ].map((item, index) => (
+            <div 
+              key={index}
+              className="bg-gradient-to-br from-[#0f172a] to-[#1e293b] p-6 rounded-2xl border border-white/5 hover:border-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[#b22cff]/10"
+            >
+              <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${item.gradient} flex items-center justify-center text-3xl mb-4 mx-auto`}>
+                {item.icon}
+              </div>
+              <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
+              <p className="text-gray-400 text-sm">{item.desc}</p>
             </div>
           ))}
         </div>
-      </section>
-      {/* Section Divider */}
-      <div className="w-full flex justify-center mb-8 mt-8">
-        <div className="h-1 w-24 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] rounded-full opacity-70 animate-pulse" />
-      </div>
-      {/* Projects Section */}
-      <section id="projects" className="min-h-[400px] py-20 px-4 max-w-5xl mx-auto text-center animate-fade-in">
-        <h2 className="text-4xl md:text-5xl font-extrabold mb-8 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent">Case Studies</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-          {[
-            {title: "Retail AI Chatbot that increased sales by 30%", desc: "Deployed an AI-powered chatbot for a retail client, boosting sales and customer engagement.", img: "/images/project1.jpg"},
-            {title: "Predictive Analytics for Manufacturing Efficiency", desc: "Implemented predictive analytics to optimize manufacturing processes and reduce downtime.", img: "/images/project2.jpg"},
-            {title: "Computer Vision for Healthcare Diagnostics", desc: "Developed a computer vision system for faster and more accurate healthcare diagnostics.", img: "/images/project3.jpg"}
-          ].map((p, i) => (
-            <div key={i} className="bg-white/20 dark:bg-black/30 backdrop-blur-lg p-8 rounded-2xl shadow-2xl border border-white/20 dark:border-black/30 flex flex-col items-center hover:scale-105 transition-transform group">
-              <Image 
-                src={p.img} 
-                alt={p.title} 
-                width={400}
-                height={160}
-                className="w-full h-40 object-cover rounded-xl mb-4 drop-shadow-lg group-hover:rotate-2 transition-transform"
-              />
-              <h3 className="text-xl font-bold mb-2 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent group-hover:underline">{p.title}</h3>
-              <p className="text-center text-white/80 dark:text-gray-300 mb-2">{p.desc}</p>
-              <Link href={`/case-studies/${p.title.toLowerCase().includes('ecommerce') ? 'ecommerce-transformation' : p.title.toLowerCase().includes('healthcare') ? 'healthcare-analytics' : 'fintech-mobile-app'}`} className="underline hover:bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent transition">
-                <span className="text-[#b22c6c] hover:text-transparent">Read More</span>
-              </Link>
-            </div>
-          ))}
+        
+        <div className="mt-12">
+          <Link 
+            href="/case-studies"
+            className="inline-flex items-center px-6 py-3 text-base font-medium text-white bg-gradient-to-r from-[#00f0ff] via-[#b22cff] to-[#ff4d8d] rounded-lg hover:opacity-90 transition-all duration-300 group"
+          >
+            View All Case Studies
+            <svg className="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+            </svg>
+          </Link>
         </div>
       </section>
       {/* Section Divider */}
-      <div className="w-full flex justify-center mb-8 mt-8">
-        <div className="h-1 w-24 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] rounded-full opacity-70 animate-pulse" />
+      <div className="w-full flex justify-center my-1">
+        <div className="h-0.5 w-8 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] rounded-full opacity-60" />
       </div>
       {/* Blog Section */}
-      <section id="blog" className="min-h-[400px] py-20 px-4 max-w-6xl mx-auto text-center animate-fade-in">
-        <h2 className="text-4xl md:text-5xl font-extrabold mb-8 mt-10 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent">Latest Insights</h2>
+      <section id="blog" className="min-h-[250px] py-6 px-4 max-w-6xl mx-auto text-center animate-fade-in">
+        <h2 className="text-3xl md:text-4xl font-extrabold mb-4 mt-6 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent pb-1">Latest Insights</h2>
         <BlogPosts />
       </section>
       
       {/* Section Divider */}
-      <div className="w-full flex justify-center mb-8 mt-8">
-        <div className="h-1 w-24 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] rounded-full opacity-70 animate-pulse" />
+      <div className="w-full flex justify-center my-1">
+        <div className="h-0.5 w-8 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] rounded-full opacity-60" />
       </div>
       {/* Contact Section */}
-      <section id="contact" className="py-20 px-4 max-w-6xl mx-auto animate-fade-in">
-        <div className="bg-white dark:bg-neutral-900 rounded-2xl shadow-2xl border border-[#ef7358] dark:border-[#ef7358] p-8 md:p-14 flex flex-col md:flex-row gap-12 items-center">
-          {/* Contact Info */}
-          <div className="flex-1 w-full md:w-auto mb-10 md:mb-0">
-            <h2 className="text-4xl md:text-5xl font-extrabold mb-4 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent text-left">Contact Us</h2>
-            <p className="mb-8 text-lg text-neutral-700 dark:text-neutral-200 text-left">Let&apos;s build the future of AI together. Reach out to our experts for a free consultation or any inquiries.</p>
-            <div className="space-y-5">
-              <div className="flex items-center gap-3 text-neutral-700 dark:text-neutral-200">
-                <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M21 10.5v7a2.5 2.5 0 01-2.5 2.5h-13A2.5 2.5 0 013 17.5v-7"/><path d="M12 3v10.5"/><path d="M7.5 7.5l4.5 4.5 4.5-4.5"/></svg>
-                <span className="font-medium">contact@moderntechlap.com</span>
+      <section id="contact" className="py-6 px-4 max-w-6xl mx-auto animate-fade-in">
+        <div className="relative bg-gradient-to-br from-[#0a0a1a] to-[#1a1a2e] rounded-3xl shadow-2xl overflow-hidden">
+          {/* Decorative elements */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute -top-40 -right-40 w-80 h-80 bg-[#b22c6c] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+            <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-[#00f0ff] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+            <div className="absolute -top-20 -left-20 w-80 h-80 bg-[#ffefa6] rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
+          </div>
+          
+          <div className="relative z-10 p-4 md:p-6 lg:flex">
+            {/* Contact Info */}
+            <div className="lg:w-2/5 mb-6 lg:mb-0 lg:pr-6">
+              <h2 className="text-2xl md:text-3xl font-extrabold mb-6 bg-gradient-to-r from-[#00f0ff] via-[#b22cff] to-[#ff4d8d] bg-clip-text text-transparent">
+                Let&apos;s explore how AI can accelerate and transform your business.
+              </h2>
+              
+              <div className="space-y-3">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 p-2 bg-gradient-to-br from-[#ef7358]/20 to-[#b22c6c]/20 rounded-lg mr-3">
+                    <svg className="w-5 h-5 text-[#00f0ff]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-0.5">Email Us</h4>
+                    <a href="mailto:contact@moderntechlap.com" className="text-base font-medium text-white hover:text-[#00f0ff] transition-colors">contact@moderntechlap.com</a>
+                  </div>
+                </div>
+                
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 p-3 bg-gradient-to-br from-[#ef7358]/20 to-[#b22c6c]/20 rounded-xl mr-4">
+                    <svg className="w-6 h-6 text-[#b22cff]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-1">Call Us</h4>
+                    <a href="tel:+12345678901" className="text-lg font-medium text-white hover:text-[#b22cff] transition-colors">+1 (234) 567-8901</a>
+                  </div>
+                </div>
+                
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 p-3 bg-gradient-to-br from-[#ef7358]/20 to-[#b22c6c]/20 rounded-xl mr-4">
+                    <svg className="w-6 h-6 text-[#ff4d8d]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 12.414a2 2 0 00-2.828 0l-4.243 4.243a8 8 0 1111.314 0z"></path>
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-1">Visit Us</h4>
+                    <p className="text-gray-300">123 AI Innovation Drive<br />San Francisco, CA 94107</p>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center gap-3 text-neutral-700 dark:text-neutral-200">
-                <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M22 16.92V19a2 2 0 01-2 2H4a2 2 0 01-2-2v-2.08a9.94 9.94 0 018-4.92 9.94 9.94 0 018 4.92z"/><circle cx="12" cy="7" r="4"/></svg>
-                <span className="font-medium">+1-234-567-8901</span>
+              
+              <div className="mt-8">
+                <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-4">Follow Us</h4>
+                <div className="flex space-x-4">
+                  {[
+                    {name: 'twitter', icon: '𝕏', label: 'X (Twitter)'},
+                    {name: 'linkedin', icon: '👔', label: 'LinkedIn'}
+                  ].map((social) => (
+                    <a 
+                      key={social.name}
+                      href="#" 
+                      className="w-10 h-10 rounded-full bg-white/5 backdrop-blur-sm flex items-center justify-center text-gray-300 hover:bg-gradient-to-r from-[#00f0ff] via-[#b22cff] to-[#ff4d8d] hover:text-white transition-all duration-300 hover:rotate-12 hover:scale-110"
+                      aria-label={social.label}
+                    >
+                      <span className="text-lg">
+                        {social.icon}
+                      </span>
+                    </a>
+                  ))}
+                </div>
               </div>
-              <div className="flex items-center gap-3 text-neutral-700 dark:text-neutral-200">
-                <svg className="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 12.414a2 2 0 00-2.828 0l-4.243 4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="8" r="4"/></svg>
-                <span className="font-medium">123 AI Avenue, Innovation City</span>
+            </div>
+            
+            {/* Contact Form */}
+            <div className="lg:w-3/5 bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10">
+              <form className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="relative group">
+                    <input 
+                      type="text" 
+                      id="name" 
+                      className="block px-3 py-2.5 w-full text-white bg-white/5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#00f0ff] focus:border-transparent outline-none transition-all duration-200 peer text-sm"
+                      placeholder=" " 
+                    />
+                    <label 
+                      htmlFor="name" 
+                      className="absolute left-2 -top-2 px-1 text-xs font-medium text-gray-400 bg-[#0a0a1a] transition-all duration-200 peer-focus:text-[#00f0ff] pointer-events-none"
+                    >
+                      Full Name
+                    </label>
+                  </div>
+                  
+                  <div className="relative group">
+                    <input 
+                      type="email" 
+                      id="email" 
+                      className="block px-3 py-2.5 w-full text-white bg-white/5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#b22cff] focus:border-transparent outline-none transition-all duration-200 peer text-sm"
+                      placeholder=" "
+                    />
+                    <label 
+                      htmlFor="email" 
+                      className="absolute left-2 -top-2 px-1 text-xs font-medium text-gray-400 bg-[#0a0a1a] transition-all duration-200 peer-focus:text-[#b22cff] pointer-events-none"
+                    >
+                      Email Address
+                    </label>
+                  </div>
+                </div>
+                
+                <div className="relative group">
+                  <input 
+                    type="text" 
+                    id="company" 
+                    className="block px-3 py-2.5 w-full text-white bg-white/5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#ff4d8d] focus:border-transparent outline-none transition-all duration-200 peer text-sm"
+                    placeholder=" "
+                  />
+                  <label 
+                    htmlFor="company" 
+                    className="absolute left-2 -top-2 px-1 text-xs font-medium text-gray-400 bg-[#0a0a1a] transition-all duration-200 peer-focus:text-[#ff4d8d] pointer-events-none"
+                  >
+                    Company (Optional)
+                  </label>
+                </div>
+                
+                <div className="relative group">
+                  <select 
+                    id="service" 
+                    className="block px-3 py-2.5 w-full text-white bg-white/5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#b22cff] focus:border-transparent outline-none appearance-none transition-all duration-200 peer text-sm"
+                    defaultValue=""
+                  >
+                    <option value="" disabled> </option>
+                    <option value="ai-development">AI Development</option>
+                    <option value="machine-learning">Machine Learning</option>
+                    <option value="data-analytics">Data Analytics</option>
+                    <option value="custom-software">Custom Software</option>
+                    <option value="consulting">Consulting</option>
+                  </select>
+                  <label 
+                    htmlFor="service" 
+                    className="absolute left-2 -top-2 px-1 text-xs font-medium text-gray-400 bg-[#0a0a1a] transition-all duration-200 peer-focus:text-[#b22cff] pointer-events-none"
+                  >
+                    Service Interest
+                  </label>
+                  <div className="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                  </div>
+                </div>
+                
+                <div className="relative group">
+                  <textarea 
+                    id="message" 
+                    rows={3} 
+                    className="block px-3 py-2.5 w-full text-white bg-white/5 border border-white/10 rounded-lg focus:ring-2 focus:ring-[#00f0ff] focus:border-transparent outline-none resize-none transition-all duration-200 peer text-sm"
+                    placeholder=" "
+                  ></textarea>
+                  <label 
+                    htmlFor="message" 
+                    className="absolute left-2 -top-2 px-1 text-xs font-medium text-gray-400 bg-[#0a0a1a] transition-all duration-200 peer-focus:text-[#00f0ff] pointer-events-none"
+                  >
+                    Your Message
+                  </label>
+                </div>
+                
+                <div className="flex items-start">
+                  <input 
+                    type="checkbox" 
+                    id="privacy" 
+                    className="mt-1 w-3.5 h-3.5 rounded border-white/20 bg-white/5 focus:ring-2 focus:ring-[#00f0ff] focus:ring-offset-2 focus:ring-offset-[#0a0a1a] text-[#00f0ff] cursor-pointer"
+                  />
+                  <label htmlFor="privacy" className="ml-2 text-xs text-gray-300">
+                    I agree to the <a href="#" className="text-[#00f0ff] hover:underline">Privacy Policy</a> and <a href="#" className="text-[#00f0ff] hover:underline">Terms of Service</a>
+                  </label>
+                </div>
+                
+                <button 
+                  type="submit" 
+                  className="w-full py-2.5 px-4 bg-gradient-to-r from-[#00f0ff] via-[#b22cff] to-[#ff4d8d] text-white font-medium rounded-lg shadow hover:shadow-md hover:shadow-[#b22cff]/30 transition-all duration-200 transform hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-[#0a0a1a] focus:ring-[#00f0ff] flex items-center justify-center space-x-2 text-sm"
+                >
+                  <span>Send Message</span>
+                  <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                  </svg>
+                </button>
+              </form>
+              
+              <div className="mt-4 text-center">
+                <p className="text-xs text-gray-400">
+                  We&apos;ll get back to you within 24 hours
+                </p>
               </div>
             </div>
           </div>
-          {/* Contact Form */}
-          <form className="flex-1 w-full md:w-auto bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6]/40 dark:bg-neutral-800 rounded-2xl shadow p-8 grid gap-5">
-            <div className="flex flex-col gap-2">
-              <label htmlFor="name" className="text-sm font-semibold dark:bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent">
-                <span className="text-[#b22c6c] dark:text-transparent">Name</span>
-              </label>
-              <input id="name" type="text" placeholder="Your Name" className="p-3 rounded border border-[#b22c6c] dark:border-[#ef7358] bg-white dark:bg-neutral-900 focus:ring-2 focus:ring-[#ef7358] outline-none transition" />
-            </div>
-            <div className="flex flex-col gap-2">
-              <label htmlFor="email" className="text-sm font-semibold dark:bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent">
-                <span className="text-[#b22c6c] dark:text-transparent">Email</span>
-              </label>
-              <input id="email" type="email" placeholder="Your Email" className="p-3 rounded border border-[#b22c6c] dark:border-[#ef7358] bg-white dark:bg-neutral-900 focus:ring-2 focus:ring-[#ef7358] outline-none transition" />
-            </div>
-            <div className="flex flex-col gap-2">
-              <label htmlFor="company" className="text-sm font-semibold dark:bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent">
-                <span className="text-[#b22c6c] dark:text-transparent">Company</span>
-              </label>
-              <input id="company" type="text" placeholder="Your Company" className="p-3 rounded border border-[#b22c6c] dark:border-[#ef7358] bg-white dark:bg-neutral-900 focus:ring-2 focus:ring-[#ef7358] outline-none transition" />
-            </div>
-            <div className="flex flex-col gap-2">
-              <label htmlFor="message" className="text-sm font-semibold dark:bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent">
-                <span className="text-[#b22c6c] dark:text-transparent">Message</span>
-              </label>
-              <textarea id="message" placeholder="How can we help you?" rows={4} className="p-3 rounded border border-[#b22c6c] dark:border-[#ef7358] bg-white dark:bg-neutral-900 focus:ring-2 focus:ring-[#ef7358] outline-none transition" />
-            </div>
-            <button type="submit" className="mt-2 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] text-white font-bold py-3 rounded-full shadow transition-transform hover:scale-105">Send Message</button>
-          </form>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="w-full bg-gradient-to-b from-transparent to-[#ef7358]/10 dark:to-black/70 relative overflow-hidden py-16 px-4">
+      <footer className="w-full bg-gradient-to-b from-transparent to-[#ef7358]/10 dark:to-black/70 relative overflow-hidden py-10 px-4">
         {/* Decorative elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute -top-1/4 -left-1/4 w-1/2 h-1/2 rounded-full bg-[#b22c6c]/10 blur-3xl" />
@@ -492,35 +828,36 @@ export default function Home() {
         
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Main footer content */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
             {/* Company Info */}
-            <div className="space-y-6">
+            <div className="space-y-4">
               <div className="flex items-center space-x-2">
                 <Image 
                   src="/logo.svg" 
                   alt="Logo" 
-                  width={40} 
-                  height={40} 
+                  width={32} 
+                  height={32} 
                   className="rounded-full"
                 />
-                <span className="text-2xl font-bold bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent">
+                <span className="text-xl font-bold bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] bg-clip-text text-transparent">
                   Modern Tech
                 </span>
               </div>
-              <p className="text-neutral-600 dark:text-neutral-300 text-sm leading-relaxed">
-                Empowering businesses with cutting-edge AI solutions that drive innovation and growth. Let&apos;s build the future together.
+              <p className="text-neutral-600 dark:text-neutral-300 text-xs leading-relaxed">
+                Empowering businesses with cutting-edge AI solutions that drive innovation and growth.
               </p>
-              <div className="flex space-x-4">
-                {['twitter', 'github', 'linkedin', 'facebook'].map((social) => (
+              <div className="flex space-x-3">
+                {[
+                  {name: 'twitter', icon: '𝕏', label: 'X (Twitter)'},
+                  {name: 'linkedin', icon: '👔', label: 'LinkedIn'}
+                ].map((social) => (
                   <a 
-                    key={social} 
+                    key={social.name}
                     href="#" 
-                    className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-neutral-700 dark:text-neutral-300 hover:bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] hover:text-white transition-all duration-300 hover:scale-110"
-                    aria-label={social}
+                    className="w-8 h-8 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-neutral-700 dark:text-neutral-300 hover:bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] hover:text-white transition-all duration-300 hover:scale-110 text-sm"
+                    aria-label={social.label}
                   >
-                    <span className="text-xl">
-                      {social === 'twitter' ? '𝕏' : social === 'github' ? '⌨️' : social === 'linkedin' ? '👔' : 'f'}
-                    </span>
+                    {social.icon}
                   </a>
                 ))}
               </div>
@@ -528,15 +865,15 @@ export default function Home() {
 
             {/* Quick Links */}
             <div>
-              <h4 className="text-lg font-bold mb-6 text-neutral-800 dark:text-white">Quick Links</h4>
-              <ul className="space-y-3">
+              <h4 className="text-base font-bold mb-4 text-neutral-800 dark:text-white">Quick Links</h4>
+              <ul className="space-y-2">
                 {['Home', 'About', 'Services', 'Portfolio', 'Blog', 'Contact'].map((item) => (
                   <li key={item}>
                     <a 
                       href={`#${item.toLowerCase()}`} 
-                      className="text-neutral-600 dark:text-neutral-300 hover:text-[#ef7358] dark:hover:text-[#ffefa6] transition-colors duration-200 flex items-center group"
+                      className="text-sm text-neutral-600 dark:text-neutral-300 hover:text-[#ef7358] dark:hover:text-[#ffefa6] transition-colors duration-200 flex items-center group"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                      <span className="w-1 h-1 rounded-full bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
                       {item}
                     </a>
                   </li>
@@ -546,21 +883,21 @@ export default function Home() {
 
             {/* Contact Info */}
             <div>
-              <h4 className="text-lg font-bold mb-6 text-neutral-800 dark:text-white">Contact Us</h4>
-              <ul className="space-y-4">
+              <h4 className="text-base font-bold mb-4 text-neutral-800 dark:text-white">Contact Us</h4>
+              <ul className="space-y-2">
                 <li className="flex items-start">
-                  <span className="text-[#ef7358] mr-3 mt-1">📍</span>
-                  <span className="text-neutral-600 dark:text-neutral-300">123 AI Street, Tech Valley, CA 94025</span>
+                  <span className="text-[#ef7358] mr-2 mt-0.5 text-sm">📍</span>
+                  <span className="text-sm text-neutral-600 dark:text-neutral-300">123 AI Street, Tech Valley, CA</span>
                 </li>
                 <li className="flex items-center">
-                  <span className="text-[#b22c6c] mr-3">✉️</span>
-                  <a href="mailto:hello@moderntech.ai" className="text-neutral-600 dark:text-neutral-300 hover:text-[#ef7358] transition-colors duration-200">
+                  <span className="text-[#b22c6c] mr-2 text-sm">✉️</span>
+                  <a href="mailto:hello@moderntech.ai" className="text-sm text-neutral-600 dark:text-neutral-300 hover:text-[#ef7358] transition-colors duration-200">
                     hello@moderntech.ai
                   </a>
                 </li>
                 <li className="flex items-center">
-                  <span className="text-[#ffefa6] mr-3">📞</span>
-                  <a href="tel:+11234567890" className="text-neutral-600 dark:text-neutral-300 hover:text-[#b22c6c] transition-colors duration-200">
+                  <span className="text-[#ffefa6] mr-2 text-sm">📞</span>
+                  <a href="tel:+11234567890" className="text-sm text-neutral-600 dark:text-neutral-300 hover:text-[#b22c6c] transition-colors duration-200">
                     +1 (123) 456-7890
                   </a>
                 </li>
@@ -569,45 +906,45 @@ export default function Home() {
 
             {/* Newsletter */}
             <div>
-              <h4 className="text-lg font-bold mb-6 text-neutral-800 dark:text-white">Newsletter</h4>
-              <p className="text-neutral-600 dark:text-neutral-300 text-sm mb-4">
-                Subscribe to our newsletter for the latest updates and insights.
+              <h4 className="text-base font-bold mb-4 text-neutral-800 dark:text-white">Newsletter</h4>
+              <p className="text-neutral-600 dark:text-neutral-300 text-xs mb-3">
+                Subscribe for the latest updates and insights.
               </p>
-              <form className="space-y-3">
+              <form className="space-y-2">
                 <div className="relative">
                   <input 
                     type="email" 
-                    placeholder="Your email address" 
-                    className="w-full px-4 py-3 rounded-lg bg-white/10 backdrop-blur-md border border-neutral-200 dark:border-neutral-800 focus:outline-none focus:ring-2 focus:ring-[#ef7358] focus:border-transparent text-neutral-800 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400"
+                    placeholder="Your email" 
+                    className="w-full px-3 py-2 text-sm rounded-lg bg-white/10 backdrop-blur-md border border-neutral-200 dark:border-neutral-800 focus:outline-none focus:ring-1 focus:ring-[#ef7358] focus:border-transparent text-neutral-800 dark:text-white placeholder-neutral-500 dark:placeholder-neutral-400"
                     required
                   />
                   <button 
                     type="submit" 
-                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] text-white px-4 py-1.5 rounded-md text-sm font-medium hover:opacity-90 transition-opacity"
+                    className="absolute right-1 top-1/2 -translate-y-1/2 bg-gradient-to-r from-[#ef7358] via-[#b22c6c] to-[#ffefa6] text-white px-3 py-1 rounded-md text-xs font-medium hover:opacity-90 transition-opacity"
                   >
-                    Subscribe
+                    Join
                   </button>
                 </div>
                 <p className="text-xs text-neutral-500 dark:text-neutral-400">
-                  We respect your privacy. Unsubscribe at any time.
+                  Unsubscribe anytime
                 </p>
               </form>
             </div>
           </div>
 
           {/* Bottom Bar */}
-          <div className="border-t border-neutral-200 dark:border-neutral-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-4 md:mb-0">
-              © {new Date().getFullYear()} Modern Tech. All rights reserved.
+          <div className="border-t border-neutral-200 dark:border-neutral-800 pt-6 flex flex-col md:flex-row justify-between items-center">
+            <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-3 md:mb-0">
+              &copy; {new Date().getFullYear()} Modern Tech. All rights reserved.
             </p>
-            <div className="flex space-x-6">
-              <a href="#" className="text-sm text-neutral-500 dark:text-neutral-400 hover:text-[#ef7358] transition-colors duration-200">
-                Privacy Policy
+            <div className="flex space-x-4">
+              <a href="#" className="text-xs text-neutral-500 dark:text-neutral-400 hover:text-[#ef7358] transition-colors duration-200">
+                Privacy
               </a>
-              <a href="#" className="text-sm text-neutral-500 dark:text-neutral-400 hover:text-[#b22c6c] transition-colors duration-200">
-                Terms of Service
+              <a href="#" className="text-xs text-neutral-500 dark:text-neutral-400 hover:text-[#b22c6c] transition-colors duration-200">
+                Terms
               </a>
-              <a href="#" className="text-sm text-neutral-500 dark:text-neutral-400 hover:text-[#ffefa6] transition-colors duration-200">
+              <a href="#" className="text-xs text-neutral-500 dark:text-neutral-400 hover:text-[#ffefa6] transition-colors duration-200">
                 Cookies
               </a>
             </div>

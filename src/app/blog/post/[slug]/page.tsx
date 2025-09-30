@@ -28,10 +28,9 @@ function getImageUrl(image: SanityImage | undefined): string | null {
 export default async function BlogPostPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
-  const resolvedParams = await params;
-  const post = await getBlogPostBySlug(resolvedParams.slug);
+  const post = await getBlogPostBySlug(params.slug);
 
   if (!post) {
     return (

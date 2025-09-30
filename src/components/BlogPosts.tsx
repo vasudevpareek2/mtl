@@ -250,31 +250,12 @@ export default function BlogPosts() {
         const imageUrl = post.mainImage ? getImageUrl(post.mainImage) : null;
         const authorImageUrl = post.author?.image ? getImageUrl(post.author.image) : null;
         const authorInitial = post.author?.name?.charAt(0).toUpperCase() || 'A';
-
-        const postUrl = post.slug?.current ? `/blog/post/${post.slug.current}` : '#';
-        
-        const handleCardClick = (e: React.MouseEvent) => {
-          // Don't do anything if the click was on a link or button
-          if ((e.target as HTMLElement).closest('a, button, [role="button"]')) {
-            return;
-          }
-          openModal(post);
-        };
         
         return (
-          <article
+          <div
             key={post._id}
-            onClick={handleCardClick}
-            className="bg-white/20 dark:bg-black/30 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 dark:border-black/30 hover:scale-105 transition-transform flex flex-col h-full overflow-hidden hover:shadow-lg hover:shadow-[#b22c6c]/10 dark:hover:shadow-[#b22c6c]/20 cursor-pointer"
+            className="bg-white/20 dark:bg-black/30 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 dark:border-black/30 hover:scale-105 transition-transform flex flex-col h-full overflow-hidden hover:shadow-lg hover:shadow-[#b22c6c]/10 dark:hover:shadow-[#b22c6c]/20"
             role="article"
-            aria-label={`View blog post: ${post.title}`}
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                window.location.href = postUrl;
-              }
-            }}
           >
             <div className="relative h-48 w-full overflow-hidden bg-gray-100 dark:bg-gray-800">
               {imageUrl ? (
@@ -369,13 +350,20 @@ export default function BlogPosts() {
                       </div>
                     )}
                     
-                    <button 
+                    <a 
+                      href={post.slug?.current ? `/blog/post/${post.slug.current}` : '#'}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center text-[#b22c6c] hover:text-[#ef7358] font-medium text-sm transition-colors focus:outline-none"
+                      aria-label={`Read more about ${post.title} (opens in new tab)`}
                       onClick={(e) => {
                         e.stopPropagation();
-                        openModal(post);
+                        // Prevent navigation if no slug
+                        if (!post.slug?.current) {
+                          e.preventDefault();
+                          alert('This blog post is missing a slug and cannot be opened.');
+                        }
                       }}
-                      className="inline-flex items-center text-[#b22c6c] hover:text-[#ef7358] font-medium text-sm transition-colors focus:outline-none"
-                      aria-label={`Read more about ${post.title}`}
                     >
                       Read more
                       <svg
@@ -392,12 +380,12 @@ export default function BlogPosts() {
                           d="M9 5l7 7-7 7"
                         />
                       </svg>
-                    </button>
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
-          </article>
+          </div>
         );
       })}
       </div>

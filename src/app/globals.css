@@ -24,5 +24,23 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  line-height: 1.6;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-size-adjust: 100%;
+}
+
+/* Ensure proper line height for all text elements */
+p, h1, h2, h3, h4, h5, h6, span, a, li, button, input, textarea, select, label {
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+}
+
+/* Fix for descenders being cut off */
+* {
+  text-size-adjust: none;
+  -webkit-text-size-adjust: none;
 }
