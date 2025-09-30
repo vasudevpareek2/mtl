@@ -5,6 +5,12 @@ import Link from 'next/link';
 import { PortableText } from '@portabletext/react';
 import { components } from '@/components/PortableTextComponent';
 import type { SanityImage, Category } from '@/types/sanity';
+import type { Metadata } from 'next';
+
+type Props = {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
 
 // Helper function to format dates
 function formatDate(dateString: string): string {
@@ -25,12 +31,9 @@ function getImageUrl(image: SanityImage | undefined): string | null {
     : null;
 }
 
-export default async function BlogPostPage({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const post = await getBlogPostBySlug(params.slug);
+export default async function BlogPostPage({ params }: Props) {
+  const resolvedParams = await params;
+  const post = await getBlogPostBySlug(resolvedParams.slug);
 
   if (!post) {
     return (
